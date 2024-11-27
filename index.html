@@ -42,15 +42,11 @@
             recipeNames = [];
             function load() {
                 let recipeSelector = document.querySelector('.RecipeSelection')
-                // let newOption = document.createElement('option');
-                // newOption.value = "NV";
-                // newOption.text = "displayText";
-                //
-                // recipeSelector.add(newOption);
 
                 //get the recipes form the server
                 fetch("recipes.json").then(responce =>{
                     responce.json().then(json =>{
+                        //create the drop down list options
                         for(let i=0;i<json.length;i++){
                             let selctorObject = document.createElement('option');
                             selctorObject.value = json[i]["Primary Output Item"];
@@ -62,7 +58,9 @@
                 })
             }
             function generate(){
+                //get the selection
                 let recipeSelector = document.querySelector('.RecipeSelection')
+                //send a request to the server to generate the sheet
                 fetch("generate",{
                     method: "POST",
                     headers: {
@@ -70,6 +68,7 @@
                     },
                     body: JSON.stringify({ recipe: recipeSelector.value })
                 }).then((result) => {
+                    //when the request data returns
                     if (!result.ok) {
                         throw Error(result.statusText);
                     }
@@ -81,13 +80,16 @@
 
                     return result.blob();
                 }).then((blob) => {
+                    //create a tmp download link
                     if (blob != null) {
                         var url = window.URL.createObjectURL(blob);
                         var a = document.createElement('a');
                         a.href = url;
                         a.download = filename;
                         document.body.appendChild(a);
+                        //click it to make the file download
                         a.click();
+                        //remove the tmp link so it can not be accidentally clicked
                         a.remove();
                     }
                 }).catch(err => {
@@ -96,17 +98,20 @@
                 })
             }
             function filterChange(){
+                //when the content of the filet box changes
                 let textBox = document.querySelector('.filterTextBox')
                 let text = textBox.value.toLowerCase()
                 //filter the recipies
                 let rec = recipeNames.filter(value =>{
-                    //console.log(value+" "+value.includes(text)+ " "+text)
+                    //remove all object from the list that do not contain the filter
                     return value.toLowerCase().includes(text)
                 })
 
                 let recipeSelector = document.querySelector('.RecipeSelection')
+                //remove all the current options form the dropdown
                 recipeSelector.innerHTML = ""
                 for(let i =0;i<rec.length;i++){
+                    //create new options and put them in the dropdown
                     let selctorObject = document.createElement('option');
                     selctorObject.value = rec[i];
                     selctorObject.text = rec[i];

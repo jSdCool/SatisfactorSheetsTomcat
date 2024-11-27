@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 
 import org.cbigames.satisfactorsheets.Generator;
 import org.cbigames.satisfactorsheets.Recipe;
@@ -15,13 +14,14 @@ public class GenerateSpreadsheetServlet extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//load the post data into a json object
 		JSONObject data = loadJSONObject(request.getInputStream());
-		
+		//read the recipe data filed
 		String recipeOutput = data.getString("recipe");
-		
+		//if it does not exist then return 404
 		if(recipeOutput == null) {
 			response.setStatus(404);
-			System.out.println("param not found");
+			//System.out.println("param not found");
 			return;
 		}
 		//find the corresponding recipe
@@ -32,20 +32,25 @@ public class GenerateSpreadsheetServlet extends HttpServlet{
 				break;
 			}
 		}
+		//if the recipe was not found then return 404
 		if(r == null) {
 			response.setStatus(404);
 			System.out.println("No!");
 			return;
 		}
+		//set response headers
 		response.setContentType(getServletContext().getMimeType("file.xlsx"));
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + recipeOutput + ".xlsx\"");
-		//response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		
+		//generate the sheet and send it to the response
 		//TODO: figure out how to get content length from this situation
 		Generator.generate(r, response.getOutputStream());
 
 
 	}
 	
+	//helper function to load the json from the post data
+	//TODO: move this to com.cbigames.satisfactorsheets.Util
 	static JSONObject loadJSONObject(InputStream in) throws IOException {
 		StringBuilder rawContent = new StringBuilder();
         int bytesRead;
