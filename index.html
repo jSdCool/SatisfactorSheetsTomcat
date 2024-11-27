@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>SatisfactorSheets</title>
+        <style>
+            .mfc1{
+                padding: 1rem;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+            }
+            select.RecipeSelection {
+                padding: 0.7rem;
+                border-radius: 1rem;
+                font-size: larger;
+                text-align: center;
+                width: 100%;
+                margin: 0.5rem;
+            }
+            input.filterTextBox {
+                padding: 0.7rem;
+                border-radius: 0.6rem;
+                font-size: larger;
+                width: 97%;
+                margin: 0.5rem;
+                border-width: thin;
+            }
+            button {
+                padding: 0.7rem;
+                border-radius: 1rem;
+                border-style: solid;
+                border-width: thin;
+                font-size: larger;
+                width: 100%;
+                background-color: #0069ff;
+                margin: 0.5rem;
+            }
+        </style>
+        <script>
+
+            recipeNames = [];
+            function load() {
+                let recipeSelector = document.querySelector('.RecipeSelection')
+                // let newOption = document.createElement('option');
+                // newOption.value = "NV";
+                // newOption.text = "displayText";
+                //
+                // recipeSelector.add(newOption);
+
+                //get the recipes form the server
+                fetch("recipes.json").then(responce =>{
+                    responce.json().then(json =>{
+                        for(let i=0;i<json.length;i++){
+                            let selctorObject = document.createElement('option');
+                            selctorObject.value = json[i]["Primary Output Item"];
+                            selctorObject.text = json[i]["Primary Output Item"];
+                            recipeNames.push(json[i]["Primary Output Item"]);
+                            recipeSelector.add(selctorObject);
+                        }
+                    })
+                })
+            }
+            function generate(){
+                let recipeSelector = document.querySelector('.RecipeSelection')
+                fetch("generate",{
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ recipe: recipeSelector.value })
+                }).then((result) => {
+                    if (!result.ok) {
+                        throw Error(result.statusText);
+                    }
+
+                    // We are reading the *Content-Disposition* header for getting the original filename given from the server
+                    const header = result.headers.get('Content-Disposition');
+                    const parts = header.split(';');
+                    filename = parts[1].split('=')[1].replaceAll("\"", "");
+
+                    return result.blob();
+                }).then((blob) => {
+                    if (blob != null) {
+                        var url = window.URL.createObjectURL(blob);
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                    }
+                }).catch(err => {
+                    console.log(err);
+                    alert("An error occurred!")
+                })
+            }
+            function filterChange(){
+                let textBox = document.querySelector('.filterTextBox')
+                let text = textBox.value.toLowerCase()
+                //filter the recipies
+                let rec = recipeNames.filter(value =>{
+                    //console.log(value+" "+value.includes(text)+ " "+text)
+                    return value.toLowerCase().includes(text)
+                })
+
+                let recipeSelector = document.querySelector('.RecipeSelection')
+                recipeSelector.innerHTML = ""
+                for(let i =0;i<rec.length;i++){
+                    let selctorObject = document.createElement('option');
+                    selctorObject.value = rec[i];
+                    selctorObject.text = rec[i];
+                    recipeSelector.add(selctorObject);
+                }
+
+            }
+        </script>
+    </head>
+    <body onload="load()">
+        <div class = "mfc1">
+            <h1>Satisfactory Spreadsheet Generator</h1>
+            <div>
+                <label>
+                    <select class="RecipeSelection"> </select>
+                </label>
+                <label>
+                    <input class="filterTextBox" placeholder="Filter" onchange=filterChange()>
+                </label>
+                <br>
+                <button onclick="generate()">Generate</button>
+            </div>
+        </div>
+    </body>
+</html>

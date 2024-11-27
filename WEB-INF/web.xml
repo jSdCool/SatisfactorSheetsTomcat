@@ -1,0 +1,19 @@
+<web-app>
+    <servlet>
+        <servlet-name>recipeJson</servlet-name>
+        <servlet-class>GetRecipeJsonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>recipeJson</servlet-name>
+        <url-pattern>/recipes.json</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>generator</servlet-name>
+        <servlet-class>GenerateSpreadsheetServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>generator</servlet-name>
+        <url-pattern>/generate</url-pattern>
+    </servlet-mapping>
+</web-app>

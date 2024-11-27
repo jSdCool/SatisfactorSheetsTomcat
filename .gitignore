@@ -1,0 +1,6 @@
+*.class
+WEB-INF/lib/SatisfactorSheets-1.0.jar
+WEB-INF/version.txt
+.classpath
+.project
+.idea/*
