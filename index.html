@@ -36,6 +36,12 @@
                 background-color: #0069ff;
                 margin: 0.5rem;
             }
+            img.github_icon {
+                position: fixed;
+                bottom: 10px;
+                right: 10px;
+                opacity: 75%;
+            }
         </style>
         <script>
 
@@ -134,6 +140,51 @@
                 <br>
                 <button onclick="generate()">Generate</button>
             </div>
+            <div>
+                <h3>Description</h3>
+                <p>
+                    This website generates spreadsheets that contain data about various crafting recipes for the game Satisfactory
+                </p>
+                <h3>How To Use</h3>
+                <ol>
+                    <li>Select Recipe from the dropdown menu.<br>If you are having problems finding what you are looking for, type part of its name into the filter box. Once you click off the box or press enter the options in the dropdown will update.</li>
+                    <li>Click on the Generate button</li>
+                    <li>Wait for the spreadsheet to download</li>
+                </ol>
+                <h3>About the Spreadsheet</h3>
+                <p>
+                    The spreadsheet you download will be in the modern Microsoft Excel format (.xlsx)<br>
+                    Across the top of the sheet there will be a series of outlined boxes, each of these represent a single item required to craft the final output.<br>
+                    Below the boxes starting at cell B12 there is a list of "Raw" resource that are required to make the end product. Next to the resource is how much of it per minute is required to make the desired output per minute.<br>
+                    At the top of an item box there is a triple wide cell. This cell represents the number of machines needed to create the required items per minute of this item. This cell can be edited on the very first item box.<br>
+                    <img src="machine_box.png" alt="machine_box"><br>
+                    The row below the machine box represents any secondary output this particular item recipe may contain.<br>
+                    2 rows below the machine box represents the primary thing the recipe represented by this item box will produce.<br>
+                    The 4 rows beneath the horizontal in the middle of the item box represent the inputs this recipe takes.<br>
+                    <img src="inputs.png" alt="inputs"><br>
+                    The first column in the item box contain the name of the item being produced or consumed.<br>
+                    The second column in the item box contain the number of each item the recipe produces/consumes per minute.<br>
+                    The third column in the item box contain the amount of each item that is consumed/produced in a single craft.<br>
+                    The final column in the item box contains the total amount of each item that is to be produced or is required per minute.<br>
+                </p>
+                <h3>Coming Soon TM</h3>
+                <p>
+                    Alternate Recipe Selection system<br>
+                    (converting the recipe data from the game into usable data takes a lot of time and effort)<br>
+                    Ficsmas recipes<br>
+                    <br>
+                    If you can lend some assistance to this project, head over to the github repo<br>
+                    Also be sure to report any bugs you may find there
+                </p>
+                <h3>My things</h3>
+                <p>
+                    If you want to check out other things that I have done you can check out my website <a href="https://cbi-games.org">https://cbi-games.org</a><br>
+                    Also check me out on <a href="https://www.youtube.com/@jsdcool1">YouTube</a><br>
+                </p>
+            </div>
         </div>
+        <a href="https://github.com/jSdCool/SatisfactorSheetsTomcat">
+            <img class="github_icon"  src="github.svg" alt=""/>
+        </a>
     </body>
 </html>
