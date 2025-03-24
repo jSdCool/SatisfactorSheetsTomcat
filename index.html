@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>SatisfactorSheets</title>
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
         <style>
             .mfc1{
                 padding: 1rem;
@@ -96,6 +97,10 @@
 				overflow-y: auto;
 				padding-inline-start: unset;
 			}
+            li.bullet{
+                cursor: unset;
+                list-style: unset;
+            }
         </style>
         <script>
 
@@ -254,7 +259,7 @@
                 <br>
                 <button onclick="generate()">Generate</button>
             </div>
-			<center>Alt Recipes</center>
+			<div style="text-align: center;">Alt Recipes</div>
 			<div class="transferList">
 			  
 			  <div class="container">
@@ -287,9 +292,10 @@
                 </p>
                 <h3>How To Use</h3>
                 <ol>
-                    <li>Select Recipe from the dropdown menu.<br>If you are having problems finding what you are looking for, type part of its name into the filter box. Once you click off the box or press enter the options in the dropdown will update.</li>
-                    <li>Click on the Generate button</li>
-                    <li>Wait for the spreadsheet to download</li>
+                    <li class="bullet">Select Recipe from the dropdown menu.<br>If you are having problems finding what you are looking for, type part of its name into the filter box. Once you click off the box or press enter the options in the dropdown will update.</li>
+                    <li class="bullet">Select the alternate recipes you want to use from the list of disabled alternate recipes, then move them over to the enabled side</li>
+                    <li class="bullet">Click on the Generate button</li>
+                    <li class="bullet">Wait for the spreadsheet to download</li>
                 </ol>
                 <h3>About the Spreadsheet</h3>
                 <p>
@@ -309,10 +315,8 @@
                 </p>
                 <h3>Coming Soon TM</h3>
                 <p>
-                    Alternate Recipe Selection system<br>
-                    (converting the recipe data from the game into usable data takes a lot of time and effort)<br>
-                    Ficsmas recipes<br>
-                    <br>
+                    Any additional recipes that get added to the game<br>
+                    Custom recipe creation (for modded recipes)<br>
                     If you can lend some assistance to this project, head over to the github repo<br>
                     Also be sure to report any bugs you may find there
                 </p>
