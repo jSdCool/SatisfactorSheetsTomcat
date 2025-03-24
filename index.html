@@ -91,6 +91,11 @@
 			  cursor: pointer;
 			  list-style: none;
 			}
+			.scrollList{
+				max-height: 18em;
+				overflow-y: auto;
+				padding-inline-start: unset;
+			}
         </style>
         <script>
 
@@ -136,14 +141,34 @@
             }
             function generate(){
                 //get the selection
-                let recipeSelector = document.querySelector('.RecipeSelection')
+                let recipeSelector = document.querySelector('.RecipeSelection');
+                //get the enlabed alt recipes
+                let activeAlts = [];
+                let enableOptions = document.querySelector('.enabledList').childNodes;
+                for(let i=0;i<enableOptions.length;i++){
+                    let option = enableOptions[i].innerHTML;
+                    //convert the html objects to the json version from the array
+                    for(let j=0;j<altRecipes.length;j++){
+                        if(option == altRecipes[j]['Recipe Name']){
+                            activeAlts.push(altRecipes[j]);
+                            break
+                        }
+                    }
+                }
+                console.log(JSON.stringify({
+                    recipe: recipeSelector.value,
+                    alts: activeAlts
+                }));
                 //send a request to the server to generate the sheet
                 fetch("generate",{
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ recipe: recipeSelector.value })
+                    body: JSON.stringify({
+                        recipe: recipeSelector.value,
+                        alts: activeAlts
+                    })
                 }).then((result) => {
                     //when the request data returns
                     if (!result.ok) {
@@ -229,13 +254,13 @@
                 <br>
                 <button onclick="generate()">Generate</button>
             </div>
-			Alt Recipes
+			<center>Alt Recipes</center>
 			<div class="transferList">
 			  
 			  <div class="container">
 				Disabled
 				<div class="list-1">
-				  <ul class="disabledList">
+				  <ul class="disabledList scrollList">
 				   
 				  </ul>
 				</div>
@@ -249,7 +274,7 @@
 			  <div class="container-3">
 				Enabled
 				<div class="list-2">
-				  <ul class="enabledList">
+				  <ul class="enabledList scrollList">
 				  </ul>
 				</div>
 			  </div>

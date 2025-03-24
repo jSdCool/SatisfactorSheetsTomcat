@@ -1,6 +1,9 @@
 *.class
-WEB-INF/lib/SatisfactorSheets-1.0.jar
+WEB-INF/lib/*.jar
 WEB-INF/version.txt
 .classpath
 .project
 .idea/*
+/bin/
+/.settings/org.eclipse.jdt.core.prefs
+/.settings/org.eclipse.jdt.launching.prefs
