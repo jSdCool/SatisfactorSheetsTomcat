@@ -7,6 +7,15 @@
         <servlet-name>recipeJson</servlet-name>
         <url-pattern>/recipes.json</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>altRecipeJson</servlet-name>
+        <servlet-class>GetAltRecipeJsonServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>altRecipeJson</servlet-name>
+        <url-pattern>/alt.json</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>generator</servlet-name>

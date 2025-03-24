@@ -42,10 +42,60 @@
                 right: 10px;
                 opacity: 75%;
             }
+			.transferList {
+			  margin: 0 auto;
+			  display: flex;
+			}
+			.container {
+			  background-color: #995;
+			  text-align: center;
+			  float: left;
+			  width:200px;
+			  display: inline-block;
+			  border: 2px solid black;
+			  .list-1 {
+				ul {
+				  height: 100%;
+				} 
+			  }
+			}
+
+			.container-2 {
+			  background-color: #955;
+			  text-align: center;
+			  border: 2px solid black;
+			  padding: 33% 0;
+			  cursor: pointer;
+			  p {
+				margin-top: 15px;
+			  }
+			}
+
+			.container-3 {
+			  background-color: #995;
+			  text-align: center;
+			  width:200px;
+			  float: right;
+			  box-sizing: border-box;
+			  display: inline-block;
+			  border: 2px solid black;
+			  margin: 0 auto;
+			}
+			.transfer {
+			  background-color: black;
+			}
+			.selected {
+				background-color:white;
+			}
+			li {
+			  cursor: pointer;
+			  list-style: none;
+			}
         </style>
         <script>
 
             recipeNames = [];
+			altRecipes = [];
             function load() {
                 let recipeSelector = document.querySelector('.RecipeSelection')
 
@@ -62,6 +112,27 @@
                         }
                     })
                 })
+				
+				//laod alts here
+				let disabledList = document.querySelector('.disabledList');
+				fetch("alt.json").then(responce =>{
+					responce.json().then(json =>{
+						//create a transfer list of the objects 
+						altRecipes = json;
+						for(let i=0;i<json.length;i++){
+							let option = document.createElement('li');
+							option.innerHTML = json[i]["Recipe Name"];
+							option.onclick = function(){
+								if(option.classList.contains("selected")){
+									option.classList.remove("selected");
+								}else{
+									option.classList.add("selected");
+								}
+							}
+							disabledList.appendChild(option);
+						}
+					});
+				});
             }
             function generate(){
                 //get the selection
@@ -125,6 +196,24 @@
                 }
 
             }
+			
+			function endableAlt(){
+				let enableList = document.querySelector('.enabledList')
+				let selection = document.querySelectorAll('.disabledList .selected')
+				selection.forEach(a => {
+					a.classList.remove("selected");
+					enableList.appendChild(a);
+				});
+			}
+			
+			function deiableAlt(){
+				let disableList = document.querySelector('.disabledList')
+				let selection = document.querySelectorAll('.enabledList .selected')
+				selection.forEach(a => {
+					a.classList.remove("selected");
+					disableList.appendChild(a);
+				});
+			}
         </script>
     </head>
     <body onload="load()">
@@ -140,6 +229,32 @@
                 <br>
                 <button onclick="generate()">Generate</button>
             </div>
+			Alt Recipes
+			<div class="transferList">
+			  
+			  <div class="container">
+				Disabled
+				<div class="list-1">
+				  <ul class="disabledList">
+				   
+				  </ul>
+				</div>
+			  </div>
+			  <div class="container-2">
+				<div class="transfer">
+				  <input type='button' value='<<' id='move_left' onclick="deiableAlt()"/>
+				  <input type='button' value='>>' id='move_right' onclick="endableAlt()"/>
+				</div>
+			  </div>
+			  <div class="container-3">
+				Enabled
+				<div class="list-2">
+				  <ul class="enabledList">
+				  </ul>
+				</div>
+			  </div>
+			</div>
+			
             <div>
                 <h3>Description</h3>
                 <p>

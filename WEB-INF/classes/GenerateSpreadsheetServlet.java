@@ -3,6 +3,7 @@ import java.io.InputStream;
 
 import org.cbigames.satisfactorsheets.Generator;
 import org.cbigames.satisfactorsheets.Recipe;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import jakarta.servlet.ServletException;
@@ -38,13 +39,26 @@ public class GenerateSpreadsheetServlet extends HttpServlet{
 			System.out.println("No!");
 			return;
 		}
+		
+		//get the selected alt recipes
+		JSONArray altArray = data.getJSONArray("alts");
+		Recipe[] altRecipes;
+		if(altArray!=null) {
+			altRecipes = new Recipe[altArray.length()];
+			for(int i=0;i<altRecipes.length;i++) {
+				altRecipes[i] = new Recipe(altArray.getJSONObject(i));
+			}
+		}else {
+			altRecipes = new Recipe[]{};
+		}
+		
 		//set response headers
 		response.setContentType(getServletContext().getMimeType("file.xlsx"));
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + recipeOutput + ".xlsx\"");
 		
 		//generate the sheet and send it to the response
 		//TODO: figure out how to get content length from this situation
-		Generator.generate(r, response.getOutputStream());
+		Generator.generate(r, response.getOutputStream(),altRecipes);
 
 
 	}
