@@ -36,7 +36,8 @@ public class GenerateSpreadsheetServlet extends HttpServlet{
 		//if the recipe was not found then return 404
 		if(r == null) {
 			response.setStatus(404);
-			System.out.println("No!");
+			response.getWriter().println("The requested recipe ("+recipeOutput+") was not found");
+			//System.out.println("No!");
 			return;
 		}
 		
